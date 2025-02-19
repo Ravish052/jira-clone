@@ -12,9 +12,9 @@ interface signInLayoutProps {
 
 const AuthLayout = ({ children }: signInLayoutProps) => {
     const pathName = usePathname()
-    const iSignIn = pathName === "/sign-in"?"Sign-in":"sign-up"
+    const iSignIn = pathName === "/sign-in"?"sign-in":"sign-up"
 
-    
+    console.log(iSignIn)
     return (
         <main className='bg-neutral-100 min-h-screen' >
             <div className='mx-auto max-w-screen-2xl p-4'>
@@ -22,7 +22,7 @@ const AuthLayout = ({ children }: signInLayoutProps) => {
                     <Image src="/logo.svg" height={56} width={152} alt="logo" />
                     <Button asChild variant={"secondary"}>
                         <Link href = {pathName === "/sign-in" ? "/sign-up":"/sign-in"}>
-                        {iSignIn ? "SignUp" : "Login"}
+                        {iSignIn === "sign-in" ? "Sign Up" : "Login"}
                         </Link>
                     </Button>
                 </nav>

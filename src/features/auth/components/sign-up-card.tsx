@@ -18,29 +18,27 @@ import {
     FormMessage
 } from "@/components/ui/form"
 import Link from 'next/link'
+import { registerSchema } from '../schemas'
+import { useRegister } from '../api/useRegister'
 
-const formSchema = z.object({
-    name: z.string().trim().min(1, "required"),
-    password: z.string().min(8, "Minimum of 8 characters required"),
-    email: z.string().email(),
-})
+
 
 
 
 const SignUpCard = () => {
 
+    const {mutate} = useRegister()
+    const form = useForm<z.infer<typeof registerSchema>>({
+            resolver: zodResolver(registerSchema),
+            defaultValues: {
+                email: "",
+                password: "",
+                name : ""
+            }
+        })
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            email: "",
-            password: "",
-            name: ""
-        }
-    })
-
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log(values)
+    const onSubmit = (values: z.infer<typeof registerSchema>) => {
+        mutate({json :values})
     }
 
     return (
@@ -69,7 +67,7 @@ const SignUpCard = () => {
                         <FormField
                             name="name"
                             control={form.control}
-                            render={(...field) => (
+                            render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
                                         <Input
@@ -88,7 +86,7 @@ const SignUpCard = () => {
                         <FormField
                             name="email"
                             control={form.control}
-                            render={(...field) => (
+                            render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
                                         <Input
@@ -105,7 +103,7 @@ const SignUpCard = () => {
                         <FormField
                             name="password"
                             control={form.control}
-                            render={(...field) => (
+                            render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
                                         <Input
@@ -120,7 +118,7 @@ const SignUpCard = () => {
                         />
 
                         <Button disabled={false} size={"lg"} className='w-full' >
-                            Login
+                            Sign Up
                         </Button>
                     </form>
                 </Form>
